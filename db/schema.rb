@@ -10,10 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160705044119) do
+ActiveRecord::Schema.define(version: 20160705063540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "boards", force: :cascade do |t|
+    t.integer  "game_id"
+    t.string   "state",      default: "---------"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.integer  "board_id"
+    t.string   "status"
+    t.integer  "challenger_id",          null: false
+    t.integer  "challenged_id",          null: false
+    t.string   "challenger_user_marker"
+    t.string   "challenged_user_marker"
+    t.integer  "active_player_id"
+    t.integer  "winner_id"
+    t.string   "winning_marker"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["active_player_id"], name: "index_games_on_active_player_id", using: :btree
+    t.index ["challenged_id"], name: "index_games_on_challenged_id", using: :btree
+    t.index ["challenger_id"], name: "index_games_on_challenger_id", using: :btree
+    t.index ["winner_id"], name: "index_games_on_winner_id", using: :btree
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
