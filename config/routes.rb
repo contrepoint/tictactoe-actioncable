@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  root 'static_pages#home'
+  root 'rooms#show'
+
+  mount ActionCable.server => '/cable'
+
   resources :boards
 
   devise_for :users, controllers: {
@@ -7,5 +10,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     passwords: 'users/passwords'
   }
+
+
 
 end
